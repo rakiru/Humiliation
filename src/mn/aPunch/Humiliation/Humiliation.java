@@ -66,6 +66,7 @@ public class Humiliation extends JavaPlugin{
 		if(sender instanceof Player){
 			Player player = (Player) sender;
 			if(Humiliation.Permissions.has(player, "humiliation.slap") || (player.isOp())){
+				try{
 				if(commandName.equalsIgnoreCase("slap")){
 					if(args.length > 0){
 						List<Player> players = getServer().matchPlayer(args[0]);
@@ -79,12 +80,14 @@ public class Humiliation extends JavaPlugin{
 							receiver.sendMessage(ChatColor.YELLOW + "You have been slapped by " + ChatColor.RED + player.getName()
 									+ ChatColor.YELLOW + "for being a(n) " + reason + ".");
 							server.broadcastMessage(ChatColor.RED + player.getName() + ChatColor.YELLOW + " has slapped " + ChatColor.RED
-									+ receiver.getName() + ChatColor.YELLOW +"for being a(n) " + reason + ".");
-						}
+									+ receiver.getName() + ChatColor.YELLOW + "for being a(n) " + reason + ".");
 					}
 				}
 			}else{
 				player.sendMessage(ChatColor.RED + "[Humiliation] You do not have permission to use that command.");
+			}
+			}catch(ArrayIndexOutOfBoundsException e){
+				player.sendMessage(ChatColor.RED + "[Humiliation] Bad command.");
 			}
 			if(Humiliation.Permissions.has(player, "humiliation.help") || (player.isOp())){
 				if(commandName.equalsIgnoreCase("hh")){
@@ -114,6 +117,7 @@ public class Humiliation extends JavaPlugin{
 				}
 			}else{
 				player.sendMessage(ChatColor.RED + "[Humiliation] You do not have permission to use that command.");
+				}
 			}
 		}
 		return true;
