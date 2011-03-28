@@ -7,8 +7,9 @@ created by aPunch
 === 0.1.1 ===
 -added Permissions support
 
-=== 0.1.2 ===
+=== 0.2 ===
 -added ability to configure /humiliate nickname color in config.yml file
+-now open source!!
 
 === TO-DO ===
 
