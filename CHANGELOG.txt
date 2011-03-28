@@ -9,6 +9,7 @@ created by aPunch
 
 === 0.2 ===
 -added ability to configure /humiliate nickname color in config.yml file
+-no more console errors if you don't specify a noun after the /slap command
 -now open source!!
 
 === TO-DO ===
