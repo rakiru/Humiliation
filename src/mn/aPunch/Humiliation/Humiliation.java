@@ -76,11 +76,11 @@ public class Humiliation extends JavaPlugin{
 							receiver.setHealth(health - 6);
 							String reason = args[1];
 							player.sendMessage(ChatColor.YELLOW + "You have slapped " + ChatColor.RED + receiver.getName() 
-									+ ChatColor.YELLOW + "for being a(n) " + reason + ".");
+									+ ChatColor.YELLOW + " for being a(n) " + reason + ".");
 							receiver.sendMessage(ChatColor.YELLOW + "You have been slapped by " + ChatColor.RED + player.getName()
-									+ ChatColor.YELLOW + "for being a(n) " + reason + ".");
+									+ ChatColor.YELLOW + " for being a(n) " + reason + ".");
 							server.broadcastMessage(ChatColor.RED + player.getName() + ChatColor.YELLOW + " has slapped " + ChatColor.RED
-									+ receiver.getName() + ChatColor.YELLOW + "for being a(n) " + reason + ".");
+									+ receiver.getName() + ChatColor.YELLOW + " for being a(n) " + reason + ".");
 					}
 				}
 			}else{
@@ -95,7 +95,7 @@ public class Humiliation extends JavaPlugin{
 					player.sendMessage(ChatColor.BLUE + "/hh - displays this menu");
 					player.sendMessage(ChatColor.BLUE + "/slap [player] [noun] - deals 3 hearts damage");
 					player.sendMessage(ChatColor.BLUE + "/humiliate [player] [nickname] - changes the display name of a player");
-					player.sendMessage(ChatColor.GOLD + "===== v0.1.1 by aPunch =====");
+					player.sendMessage(ChatColor.GOLD + "===== v0.2.1 by aPunch =====");
 					}
 				}
 			if(Humiliation.Permissions.has(player, "humiliation.humiliate") || (player.isOp())){
@@ -111,12 +111,10 @@ public class Humiliation extends JavaPlugin{
 							receiver.sendMessage(ChatColor.YELLOW + "You were renamed to " + ChatColor.RED + nickname
 									+ ChatColor.YELLOW + " by " + ChatColor.RED + player.getName() + ChatColor.YELLOW + ".");
 							server.broadcastMessage(ChatColor.RED + player.getName() + ChatColor.YELLOW + " has renamed " + ChatColor.RED
-									+ receiver.getName() + ChatColor.YELLOW +" to " + ChatColor.RED + nickname + ChatColor.YELLOW + ".");
+									+ receiver.getName() + ChatColor.YELLOW + " to " + ChatColor.RED + nickname + ChatColor.YELLOW + ".");
+							}
 						}
 					}
-				}
-			}else{
-				player.sendMessage(ChatColor.RED + "[Humiliation] You do not have permission to use that command.");
 				}
 			}
 		}
