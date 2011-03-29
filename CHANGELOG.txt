@@ -17,6 +17,7 @@ created by aPunch
 
 === 0.2.2 ===
 -added primitive leash capabilities
+-more bugfixes
 
 === TO-DO ===
 
