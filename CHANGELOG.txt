@@ -12,9 +12,15 @@ created by aPunch
 -no more console errors if you don't specify a noun after the /slap command
 -now open source!!
 
+=== 0.2.1 ===
+-small bugfixes, code clean-up
+
+=== 0.2.2 ===
+-added primitive leash capabilities
+
 === TO-DO ===
 
--ability to "leash" players
+-ability to configure leashing distance
 -Add more configurable settings
 -Add more "humiliating" commands and features
 -Other?
