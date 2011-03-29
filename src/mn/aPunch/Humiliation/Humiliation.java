@@ -74,19 +74,27 @@ public class Humiliation extends JavaPlugin{
 						if(players.size() > 0){
 							Player receiver = players.get(0);
 							int health = receiver.getHealth();
-							receiver.setHealth(health - 6);
-							String reason = args[1];
-							player.sendMessage(ChatColor.YELLOW + "You have slapped " + ChatColor.RED + receiver.getName() 
-									+ ChatColor.YELLOW + " for being a(n) " + reason + ".");
-							receiver.sendMessage(ChatColor.YELLOW + "You have been slapped by " + ChatColor.RED + player.getName()
-									+ ChatColor.YELLOW + " for being a(n) " + reason + ".");
-							server.broadcastMessage(ChatColor.RED + player.getName() + ChatColor.YELLOW + " has slapped " + ChatColor.RED
-									+ receiver.getName() + ChatColor.YELLOW + " for being a(n) " + reason + ".");
+							if(receiver.getHealth() >= 6){
+								receiver.setHealth(health - 6);
+								String reason = args[1];
+								player.sendMessage(ChatColor.YELLOW + "You have slapped " + ChatColor.RED + receiver.getName() 
+										+ ChatColor.YELLOW + " for being a(n) " + reason + ".");
+								receiver.sendMessage(ChatColor.YELLOW + "You have been slapped by " + ChatColor.RED + player.getName()
+										+ ChatColor.YELLOW + " for being a(n) " + reason + ".");
+								server.broadcastMessage(ChatColor.RED + player.getName() + ChatColor.YELLOW + " has slapped " + ChatColor.RED
+										+ receiver.getName() + ChatColor.YELLOW + " for being a(n) " + reason + ".");
+								return true;
+							}else{
+								player.sendMessage(ChatColor.RED + "[Humiliation] You cannot slap a player when they are very low on health!");
+							}
+						}
 					}
-				}
+			}else{
+				player.sendMessage(ChatColor.RED + "[Humiliation] You do not have permission to use this command.");
+				return true;
 			}
 			}catch(ArrayIndexOutOfBoundsException e){
-				player.sendMessage(ChatColor.RED + "[Humiliation] Bad command.");
+				player.sendMessage(ChatColor.RED + "Bad Command.");
 			}
 			if(Humiliation.Permissions.has(player, "humiliation.leash")){
 				if(commandName.equalsIgnoreCase("leash")){
@@ -102,12 +110,16 @@ public class Humiliation extends JavaPlugin{
 								leashedPlayer.sendMessage(ChatColor.YELLOW + "You are leashed to " + ChatColor.RED + player.getName() 
 										+ ChatColor.YELLOW + ". You cannot move freely until you are released.");
 								leashedPlayer.teleportTo(player);
+								return true;
 								}
 							}
 						}else{
 							player.sendMessage(ChatColor.RED + "[Humiliation] You must specify a player to leash.");
 						}
 					}
+				}else{
+					player.sendMessage(ChatColor.RED + "[Humiliation] You do not have permission to use this command.");
+					return true;
 				}
 			}
 			if(Humiliation.Permissions.has(player, "humiliation.help") || (player.isOp())){
@@ -116,9 +128,13 @@ public class Humiliation extends JavaPlugin{
 					player.sendMessage(ChatColor.BLUE + "/hh - displays this menu");
 					player.sendMessage(ChatColor.BLUE + "/slap [player] [noun] - deals 3 hearts damage");
 					player.sendMessage(ChatColor.BLUE + "/humiliate [player] [nickname] - changes the display name of a player");
-					player.sendMessage(ChatColor.GOLD + "===== v0.2.1 by aPunch =====");
-					}
+					player.sendMessage(ChatColor.GOLD + "===== v0.2.2 by aPunch =====");
+					return true;
 				}
+			}else{
+				player.sendMessage(ChatColor.RED + "[Humiliation] You do not have permission to use this command.");
+				return true;
+			}
 			if(Humiliation.Permissions.has(player, "humiliation.humiliate") || (player.isOp())){
 				if(commandName.equalsIgnoreCase("humiliate")){
 					if(args.length > 0){
@@ -133,11 +149,15 @@ public class Humiliation extends JavaPlugin{
 									+ ChatColor.YELLOW + " by " + ChatColor.RED + player.getName() + ChatColor.YELLOW + ".");
 							server.broadcastMessage(ChatColor.RED + player.getName() + ChatColor.YELLOW + " has renamed " + ChatColor.RED
 									+ receiver.getName() + ChatColor.YELLOW + " to " + ChatColor.RED + nickname + ChatColor.YELLOW + ".");
-							}
+							return true;
 						}
 					}
 				}
+			}else{
+				player.sendMessage(ChatColor.RED + "[Humiliation] You do not have permission to use this command.");
+				return true;
 			}
+		}
 		return true;
 	}
 	public void onDisable(){
