@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.logging.Logger;
 
 import org.bukkit.ChatColor;
+import org.bukkit.Location;
 import org.bukkit.Server;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -83,11 +84,31 @@ public class Humiliation extends JavaPlugin{
 									+ receiver.getName() + ChatColor.YELLOW + " for being a(n) " + reason + ".");
 					}
 				}
-			}else{
-				player.sendMessage(ChatColor.RED + "[Humiliation] You do not have permission to use that command.");
 			}
 			}catch(ArrayIndexOutOfBoundsException e){
 				player.sendMessage(ChatColor.RED + "[Humiliation] Bad command.");
+			}
+			if(Humiliation.Permissions.has(player, "humiliation.leash")){
+				if(commandName.equalsIgnoreCase("leash")){
+					if(args.length > 0){
+						List<Player> players = getServer().matchPlayer(args[0]);
+						if(players.size() > 0){
+							Player leashedPlayer = players.get(0);
+							leashedPlayer.teleportTo(player);
+							leashedPlayer.sendMessage(ChatColor.YELLOW + "You have been leashed by " + ChatColor.RED + player.getName() + ChatColor.YELLOW + ".");
+							Location playerLocation = player.getLocation();
+							Location leashedPlayerLocation = leashedPlayer.getLocation();
+							if(playerLocation != leashedPlayerLocation){
+								leashedPlayer.sendMessage(ChatColor.YELLOW + "You are leashed to " + ChatColor.RED + player.getName() 
+										+ ChatColor.YELLOW + ". You cannot move freely until you are released.");
+								leashedPlayer.teleportTo(player);
+								}
+							}
+						}else{
+							player.sendMessage(ChatColor.RED + "[Humiliation] You must specify a player to leash.");
+						}
+					}
+				}
 			}
 			if(Humiliation.Permissions.has(player, "humiliation.help") || (player.isOp())){
 				if(commandName.equalsIgnoreCase("hh")){
@@ -117,7 +138,6 @@ public class Humiliation extends JavaPlugin{
 					}
 				}
 			}
-		}
 		return true;
 	}
 	public void onDisable(){
@@ -125,5 +145,4 @@ public class Humiliation extends JavaPlugin{
 		System.out.println("[" + pdfFile.getName() + "]" + " version "
 				+ pdfFile.getVersion() + " is disabled! ");
 	}
-
 }
