@@ -19,6 +19,15 @@ created by aPunch
 -added primitive leash capabilities
 -more bugfixes
 
+=== 0.3 ===
+-created Permissions-handling class
+-added LeashMap class to store leashers/leashees for /leash command - LEASH COMMAND TEMPORARILY DISABLED
+-added automatic kick on use of TNT, which is configurable in the config.yml
+-needed bugfixes
+-'humiliation.admin' Permissions node
+-updated to latest recommended build (CB build600)
+-now uses Permissions v2.5.5
+
 === TO-DO ===
 
 -ability to configure leashing distance
