@@ -28,9 +28,12 @@ created by aPunch
 -updated to latest recommended build (CB build600)
 -now uses Permissions v2.5.5
 
+=== 0.3.1 ===
+-fixed ArrayIndexOutOfBoundsException error -- finally!
+-added /throw [player] command
+
 === TO-DO ===
 
--ability to configure leashing distance
+-fix /leash stuff
 -Add more configurable settings
--Add more "humiliating" commands and features
 -Other?

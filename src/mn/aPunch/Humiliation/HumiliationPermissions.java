@@ -71,4 +71,12 @@ public class HumiliationPermissions {
 			return true;
 		}
 	}
+
+	public static boolean canThrow(Player player) {
+		if (permissionsEnabled) {
+			return permission(player, "humiliation.throw");
+		} else {
+			return true;
+		}
+	}
 }

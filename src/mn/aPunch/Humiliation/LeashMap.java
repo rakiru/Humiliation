@@ -8,11 +8,10 @@ import org.bukkit.entity.Player;
 public class LeashMap {
 	protected HashMap<Player, List<Player>> players = new HashMap<Player, List<Player>>();
 	
-	players.put(p1, new Player(1);
 	public boolean isLeashing(Player player){
-		
+		return true;
 	}
 	public boolean isLeashed(Player player){
-		
+		return true;
 	}
 }

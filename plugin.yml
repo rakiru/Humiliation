@@ -1,6 +1,6 @@
 name: Humiliation
 main: mn.aPunch.Humiliation.Humiliation
-version: 0.3
+version: 0.3.1
 commands:
   hh:
     description: The Humiliation Help menu.
@@ -17,3 +17,8 @@ commands:
     usage: |
            Incorrect usage of /humiliate. Examples:
            /<command> [player] [nickname]
+  throw:
+    description: Throw a player up in the air, and watch them fall to their death!
+    usage: |
+           Incorrect usage of /throw. Examples:
+           /<command> [player]
