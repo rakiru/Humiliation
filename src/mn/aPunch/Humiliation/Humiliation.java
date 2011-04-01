@@ -40,7 +40,7 @@ public class Humiliation extends JavaPlugin {
 				+ "/humiliate [player] [nickname] - changes the display name of a player");
 		player.sendMessage(ChatColor.BLUE
 				+ "/throw [player] - throw a player up in the air...and watch them fall to their death!");
-		player.sendMessage(ChatColor.GOLD + "===== v0.3.1 by aPunch =====");
+		player.sendMessage(ChatColor.GOLD + "===== v0.3.2 by aPunch =====");
 	}
 
 	private void loadConfig() {

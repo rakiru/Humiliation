@@ -1,6 +1,6 @@
 name: Humiliation
 main: mn.aPunch.Humiliation.Humiliation
-version: 0.3.1
+version: 0.3.2
 commands:
   hh:
     description: The Humiliation Help menu.

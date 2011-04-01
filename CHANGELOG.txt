@@ -32,6 +32,9 @@ created by aPunch
 -fixed ArrayIndexOutOfBoundsException error -- finally!
 -added /throw [player] command
 
+=== 0.3.2 ===
+-fixed console message-spam whenever a player with the 'humiliation.admin' node placed a block
+
 === TO-DO ===
 
 -fix /leash stuff
