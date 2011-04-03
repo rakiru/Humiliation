@@ -35,12 +35,12 @@ public class Humiliation extends JavaPlugin {
 		player.sendMessage(ChatColor.GOLD + "===== Humiliation Help =====");
 		player.sendMessage(ChatColor.BLUE + "/hh - displays this menu");
 		player.sendMessage(ChatColor.BLUE
-				+ "/slap [player] [noun] - deals 3 hearts damage");
+				+ "/slap [player] - deals 3 hearts damage");
 		player.sendMessage(ChatColor.BLUE
 				+ "/humiliate [player] [nickname] - changes the display name of a player");
 		player.sendMessage(ChatColor.BLUE
 				+ "/throw [player] - throw a player up in the air...and watch them fall to their death!");
-		player.sendMessage(ChatColor.GOLD + "===== v0.3.2 by aPunch =====");
+		player.sendMessage(ChatColor.GOLD + "===== v0.3.4 by aPunch =====");
 	}
 
 	private void loadConfig() {
@@ -80,9 +80,9 @@ public class Humiliation extends JavaPlugin {
 		String commandName = command.getName();
 		if (sender instanceof Player) {
 			Player player = (Player) sender;
-			if (commandName.equals("slap")) {
+			if (commandName.equalsIgnoreCase("slap")) {
 				if (HumiliationPermissions.canSlap(player) || (player.isOp())) {
-					if (args.length >= 2) {
+					if (args.length >= 1) {
 						List<Player> players = getServer().matchPlayer(args[0]);
 						if (players.size() >= 1) {
 							Player receiver = players.get(0);
@@ -112,44 +112,45 @@ public class Humiliation extends JavaPlugin {
 						}
 					} else {
 						player.sendMessage(ChatColor.RED
-								+ "[Humiliation] You must specify a player and a noun!");
+								+ "[Humiliation] You must specify a player's name!");
 					}
 				} else {
 					player.sendMessage(ChatColor.RED
-							+ "[Humiliation] You do not have permission to use this command.");
+							+ "[Humiliation] You do not have permission to use that command.");
 					return true;
 				}
-			} else {
-				player.sendMessage(ChatColor.RED
-						+ "[Humiliation] Incorrect command. Type /hh to view possible commands.");
-			}
-			/*
-			 * if (commandName.equals("leash")) { if
-			 * (HumiliationPermissions.canLeash(player) || (player.isOp())) { if
-			 * (args.length > 0) { List<Player> players =
-			 * getServer().matchPlayer(args[0]); if (players.size() > 0) {
-			 * HumiliationPlayerListener playerListener = new
-			 * HumiliationPlayerListener( this); Player p =
-			 * playerListener.getLeashingPlayer(); Player lp =
-			 * playerListener.getLeashedPlayer(); Server s = p.getServer();
-			 * playerListener.onPlayerMove(null); p.sendMessage(ChatColor.YELLOW
-			 * + "You have leashed " + ChatColor.RED + lp.getName() +
-			 * ChatColor.YELLOW + "."); lp.sendMessage(ChatColor.YELLOW +
-			 * "You have been leashed by " + ChatColor.RED + p.getName() +
-			 * ChatColor.YELLOW + "."); s.broadcastMessage(ChatColor.RED +
-			 * p.getName() + ChatColor.YELLOW + " has leashed " + ChatColor.RED
-			 * + lp.getName()); } } } }
-			 */
-			if (commandName.equals("hh")) {
-				if (HumiliationPermissions.canHelp(player) || (player.isOp())) {
-					sendHelp(player);
-					return true;
+			} else if (commandName.equalsIgnoreCase("throw")) {
+				if (HumiliationPermissions.canThrow(player) || (player.isOp())) {
+					if (args.length >= 1) {
+						List<Player> players = getServer().matchPlayer(args[0]);
+						Player receiver = players.get(0);
+						double x = receiver.getLocation().getBlockX();
+						double y = receiver.getLocation().getBlockY();
+						double z = receiver.getLocation().getBlockZ();
+						double newY = y + throwHeight;
+						Location loc = new Location(receiver.getWorld(), x,
+								newY, z);
+						if (players.size() >= 1) {
+							receiver.teleport(loc);
+						} else {
+							player.sendMessage(ChatColor.RED
+									+ "[Humiliation] You must specify a player.");
+						}
+					} else {
+						player.sendMessage(ChatColor.RED
+								+ "[Humiliation] You must specify a player.");
+					}
 				} else {
 					player.sendMessage(ChatColor.RED
 							+ "[Humiliation] You do not have permission to use that command.");
+					return true;
 				}
-			}
-			if (commandName.equals("humiliate")) {
+			} else if (commandName.equalsIgnoreCase("hh")) {
+				if (HumiliationPermissions.canHelp(player) || (player.isOp())) {
+					sendHelp(player);
+					return true;
+				}
+			} else if (commandName.equalsIgnoreCase("humiliate")) {
 				if (HumiliationPermissions.canHumiliate(player)
 						|| (player.isOp())) {
 					if (args.length >= 2) {
@@ -179,7 +180,8 @@ public class Humiliation extends JavaPlugin {
 									+ ChatColor.YELLOW + ".");
 							return true;
 						} else {
-
+							player.sendMessage(ChatColor.RED
+									+ "[Humiliation] You must specify a player and a new nickname.");
 						}
 					} else {
 						player.sendMessage(ChatColor.RED
@@ -187,39 +189,12 @@ public class Humiliation extends JavaPlugin {
 					}
 				} else {
 					player.sendMessage(ChatColor.RED
-							+ "[Humiliation] You do not have permission to use this command.");
+							+ "[Humiliation] You do not have permission to use that command.");
 					return true;
 				}
 			} else {
 				player.sendMessage(ChatColor.RED
-						+ "[Humiliation] Incorrect command. Type /hh to view possible commands.");
-			}
-			if (commandName.equalsIgnoreCase("throw")) {
-				if (HumiliationPermissions.canThrow(player) || (player.isOp())) {
-					if (args.length >= 1) {
-						List<Player> players = getServer().matchPlayer(args[0]);
-						Player receiver = players.get(0);
-						double x = receiver.getLocation().getX();
-						double y = receiver.getLocation().getY();
-						double z = receiver.getLocation().getZ();
-						double newY = y + throwHeight;
-						Location loc = receiver.getLocation();
-						if (players.size() >= 1) {
-							loc.setX(x);
-							loc.setY(newY);
-							loc.setZ(z);
-						} else {
-							player.sendMessage(ChatColor.RED
-									+ "[Humiliation] You must specify a player.");
-						}
-					} else {
-						player.sendMessage(ChatColor.RED
-								+ "[Humiliation] You must specify a player.");
-					}
-				}
-			} else {
-				player.sendMessage(ChatColor.RED
-						+ "[Humiliation] Incorrect command. Type /hh to view possible commands.");
+						+ "[Humiliation] HUM = Incorrect command. Type /hh to view possible commands.");
 			}
 		}
 		return true;

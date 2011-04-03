@@ -64,14 +64,6 @@ public class HumiliationPermissions {
 		}
 	}
 
-	public static boolean canLeash(Player player) {
-		if (permissionsEnabled) {
-			return permission(player, "humiliation.leash");
-		} else {
-			return true;
-		}
-	}
-
 	public static boolean canThrow(Player player) {
 		if (permissionsEnabled) {
 			return permission(player, "humiliation.throw");

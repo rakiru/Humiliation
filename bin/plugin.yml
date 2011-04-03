@@ -1,0 +1,24 @@
+name: Humiliation
+main: mn.aPunch.Humiliation.Humiliation
+version: 0.3.2
+commands:
+  hh:
+    description: The Humiliation Help menu.
+    usage: |
+           Incorrect usage of /hh. Examples:
+           /<command> 
+  slap:
+    description: Slap a player to deal damage.
+    usage: |
+           Incorrect usage of /slap. Examples:
+           /<command> [player] [noun]
+  humiliate:
+    description: Change a player's display name.
+    usage: |
+           Incorrect usage of /humiliate. Examples:
+           /<command> [player] [nickname]
+  throw:
+    description: Throw a player up in the air, and watch them fall to their death!
+    usage: |
+           Incorrect usage of /throw. Examples:
+           /<command> [player]
