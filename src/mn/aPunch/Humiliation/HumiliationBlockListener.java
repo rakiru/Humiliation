@@ -9,7 +9,6 @@ import org.bukkit.event.block.BlockListener;
 import org.bukkit.event.block.BlockPlaceEvent;
 
 public class HumiliationBlockListener extends BlockListener {
-	private static final Humiliation Humiliation = new Humiliation();
 	public Humiliation plugin;
 
 	public HumiliationBlockListener(Humiliation instance) {
@@ -23,7 +22,7 @@ public class HumiliationBlockListener extends BlockListener {
 		if (HumiliationPermissions.isAdmin(player)) {
 
 		} else if (block.getType() == Material.TNT) {
-			if (Humiliation.config.getBoolean("automatic-kick", true)) {
+			if (mn.aPunch.Humiliation.Humiliation.config.getBoolean("automatic-kick", true)) {
 				player.kickPlayer(null);
 				block.setType(Material.AIR);
 				server.broadcastMessage(ChatColor.RED + player.getName()
