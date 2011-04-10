@@ -1,5 +1,6 @@
 package mn.aPunch.Humiliation;
 
+
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.Server;
@@ -22,7 +23,8 @@ public class HumiliationBlockListener extends BlockListener {
 		if (HumiliationPermissions.isAdmin(player)) {
 
 		} else if (block.getType() == Material.TNT) {
-			if (mn.aPunch.Humiliation.Humiliation.config.getBoolean("automatic-kick", true)) {
+			if (mn.aPunch.Humiliation.Humiliation.config.getBoolean(
+					"automatic-kick", true)) {
 				player.kickPlayer(null);
 				block.setType(Material.AIR);
 				server.broadcastMessage(ChatColor.RED + player.getName()
