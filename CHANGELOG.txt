@@ -53,8 +53,12 @@ created by aPunch
 -fixed a silly mistake in v0.4 (didn't actually get rid of onCommand in main class)
 -works with CB recommended build #674
 
+=== 0.5-alpha2 ===
+-throw height is now part of throw command (if none is specified, defaults to 
+ "default-throw-height" in config file
+-works with CB recommended build #677
+
 === TO-DO ===
--make throw height part of the /throw command (coming in v0.5-alpha2)
 -iron out the leash issues (finish before final v0.5 release)
 -clean up code even more
 -BOSEconomy support?! Why not?
