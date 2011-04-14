@@ -23,21 +23,21 @@ public class Humiliation extends JavaPlugin {
 
 	public static String nickColor = "WHITE";
 	public static boolean autoKick = true;
-	public static int throwHeight = 30;
+	public static int defaultThrowHeight = 30;
 	public static int leashRadius = 5;
 	
 	private void loadConfig() {
 		config.load();
 		nickColor = config.getString("nickname-color", nickColor);
 		autoKick = config.getBoolean("automatic-kick", autoKick);
-		throwHeight = config.getInt("throw-height", throwHeight);
+		defaultThrowHeight = config.getInt("default-throw-height", defaultThrowHeight);
 		leashRadius = config.getInt("leash-radius", leashRadius);
 	}
 
 	private void defaultConfig() {
 		config.setProperty("nickname-color", nickColor);
 		config.setProperty("automatic-kick", autoKick);
-		config.setProperty("throw-height", throwHeight);
+		config.setProperty("default-throw-height", defaultThrowHeight);
 		config.setProperty("leash-radius", leashRadius);
 		config.save();
 	}

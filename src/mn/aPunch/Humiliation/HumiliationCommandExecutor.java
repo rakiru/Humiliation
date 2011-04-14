@@ -18,6 +18,8 @@ public class HumiliationCommandExecutor implements CommandExecutor {
 	public static Player player;
 	public static String noPermissionsMessage = ChatColor.RED
 			+ "[Challenges] You do not have permission to use that command.";
+	public static String specifyPlayerMessage = ChatColor.RED
+	+ "[Humiliation] You must specify a player to throw.";
 
 	public HumiliationCommandExecutor(Humiliation instance) {
 		plugin = instance;
@@ -69,14 +71,16 @@ public class HumiliationCommandExecutor implements CommandExecutor {
 					return true;
 				}
 			} else if (commandName.equalsIgnoreCase("throw")) {
-				if (permissions.canThrow(player) || (player.isOp())) {
-					if (args.length >= 1) {
+				if ((permissions.canThrow(player)) || (player.isOp())) {
+					if (args.length == 2) {
 						List<Player> players = server.matchPlayer(args[0]);
 						Player receiver = players.get(0);
+						String throwHeight = args[1];
+						int height = Integer.parseInt(throwHeight);
 						double x = receiver.getLocation().getBlockX();
 						double y = receiver.getLocation().getBlockY();
 						double z = receiver.getLocation().getBlockZ();
-						double newY = y + Humiliation.throwHeight;
+						double newY = y + height;
 						Location loc = new Location(receiver.getWorld(), x,
 								newY, z);
 						if (players.size() >= 1) {
@@ -89,18 +93,36 @@ public class HumiliationCommandExecutor implements CommandExecutor {
 									+ "You were thrown high into the air by "
 									+ ChatColor.RED + player.getName()
 									+ ChatColor.YELLOW + ".");
-
 						} else {
-							player.sendMessage(ChatColor.RED
-									+ "[Humiliation] You must specify a player.");
+							player.sendMessage(specifyPlayerMessage);
 						}
-					} else {
-						player.sendMessage(ChatColor.RED
-								+ "[Humiliation] You must specify a player.");
+					} else if (args.length == 1) {
+						List<Player> players = server.matchPlayer(args[0]);
+						Player receiver = players.get(0);
+						double x = receiver.getLocation().getBlockX();
+						double y = receiver.getLocation().getBlockY();
+						double z = receiver.getLocation().getBlockZ();
+						double newY = y + Humiliation.defaultThrowHeight;
+						Location loc = new Location(receiver.getWorld(), x,
+								newY, z);
+						if (players.size() >= 1) {
+							receiver.teleport(loc);
+							player.sendMessage(ChatColor.YELLOW
+									+ "You have thrown " + ChatColor.RED
+									+ receiver.getName() + ChatColor.YELLOW
+									+ " high into the air!");
+							receiver.sendMessage(ChatColor.YELLOW
+									+ "You were thrown high into the air by "
+									+ ChatColor.RED + player.getName()
+									+ ChatColor.YELLOW + ".");
+						} else {
+							player.sendMessage(specifyPlayerMessage);
+						}
+					} else if (args.length == 0) {
+						player.sendMessage(specifyPlayerMessage);
 					}
 				} else {
 					player.sendMessage(noPermissionsMessage);
-					return true;
 				}
 			} else if (commandName.equalsIgnoreCase("hh")) {
 				if (permissions.canHelp(player) || (player.isOp())) {
@@ -216,12 +238,12 @@ public class HumiliationCommandExecutor implements CommandExecutor {
 		player.sendMessage(ChatColor.BLUE
 				+ "/humiliate [player] [nickname] - changes the display name of a player");
 		player.sendMessage(ChatColor.BLUE
-				+ "/throw [player] - throw a player up in the air...and watch them fall to their death!");
+				+ "/throw [player] (height) - throw a player up in the air...and watch them fall to their death!");
 		player.sendMessage(ChatColor.BLUE
 				+ "/leash [player] - drag a player around with you");
 		player.sendMessage(ChatColor.BLUE
 				+ "/unleash [player] - unleash a player");
 		player.sendMessage(ChatColor.GOLD
-				+ "========== v0.5-alpha1 by aPunch ==========");
+				+ "========== v0.5-alpha2 by aPunch ==========");
 	}
 }

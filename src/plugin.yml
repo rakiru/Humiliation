@@ -1,6 +1,6 @@
 name: Humiliation
 main: mn.aPunch.Humiliation.Humiliation
-version: 0.5-alpha1
+version: 0.5-alpha2
 commands:
   hh:
     description: The Humiliation Help menu.
@@ -11,7 +11,7 @@ commands:
     description: Slap a player to deal damage.
     usage: |
            Incorrect usage of /slap. Examples:
-           /<command> [player] [noun]
+           /<command> [player]
   humiliate:
     description: Change a player's display name.
     usage: |
@@ -21,7 +21,7 @@ commands:
     description: Throw a player up in the air, and watch them fall to their death!
     usage: |
            Incorrect usage of /throw. Examples:
-           /<command> [player]
+           /<command> [player] (height)
   leash:
     description: Hook a player within a customizable radius.
     usage: |
