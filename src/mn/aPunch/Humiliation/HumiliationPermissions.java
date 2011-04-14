@@ -10,8 +10,13 @@ import org.bukkit.plugin.Plugin;
 import com.nijikokun.bukkit.Permissions.Permissions;
 
 public class HumiliationPermissions {
+	public Humiliation plugin;
 	private static Permissions permissionsPlugin;
 	private static boolean permissionsEnabled = false;
+	
+	public HumiliationPermissions(Humiliation instance){
+		plugin = instance;
+	}
 
 	public static void initialize(Server server) {
 		Plugin test = server.getPluginManager().getPlugin("Permissions");
@@ -32,7 +37,7 @@ public class HumiliationPermissions {
 		return permissionsPlugin.Security.permission(player, string);
 	}
 
-	public static boolean isAdmin(Player player) {
+	public boolean isAdmin(Player player) {
 		if (permissionsEnabled) {
 			return permission(player, "humiliation.admin");
 		} else {
@@ -40,7 +45,7 @@ public class HumiliationPermissions {
 		}
 	}
 
-	public static boolean canHelp(Player player) {
+	public boolean canHelp(Player player) {
 		if (permissionsEnabled) {
 			return permission(player, "humiliation.help");
 		} else {
@@ -48,7 +53,7 @@ public class HumiliationPermissions {
 		}
 	}
 
-	public static boolean canHumiliate(Player player) {
+	public boolean canHumiliate(Player player) {
 		if (permissionsEnabled) {
 			return permission(player, "humiliation.humiliate");
 		} else {
@@ -56,7 +61,7 @@ public class HumiliationPermissions {
 		}
 	}
 
-	public static boolean canSlap(Player player) {
+	public boolean canSlap(Player player) {
 		if (permissionsEnabled) {
 			return permission(player, "humiliation.slap");
 		} else {
@@ -64,7 +69,7 @@ public class HumiliationPermissions {
 		}
 	}
 
-	public static boolean canThrow(Player player) {
+	public boolean canThrow(Player player) {
 		if (permissionsEnabled) {
 			return permission(player, "humiliation.throw");
 		} else {
@@ -72,7 +77,7 @@ public class HumiliationPermissions {
 		}
 	}
 
-	public static boolean canLeash(Player player) {
+	public boolean canLeash(Player player) {
 		if (permissionsEnabled) {
 			return permission(player, "humiliation.leash");
 		} else {

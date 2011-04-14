@@ -3,7 +3,6 @@ package mn.aPunch.Humiliation;
 import java.util.HashMap;
 import java.util.List;
 
-
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Server;
@@ -12,11 +11,13 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-
 public class HumiliationCommandExecutor implements CommandExecutor {
 	public Humiliation plugin;
+	public static HumiliationPermissions permissions;
 	public static HashMap<String, String> leashMap = new HashMap<String, String>();
 	public static Player player;
+	public static String noPermissionsMessage = ChatColor.RED
+			+ "[Challenges] You do not have permission to use that command.";
 
 	public HumiliationCommandExecutor(Humiliation instance) {
 		plugin = instance;
@@ -26,10 +27,11 @@ public class HumiliationCommandExecutor implements CommandExecutor {
 			String commandLabel, String[] args) {
 		Server server = plugin.getServer();
 		String commandName = command.getName();
+		permissions = new HumiliationPermissions(plugin);
 		if (sender instanceof Player) {
 			player = (Player) sender;
 			if (commandName.equalsIgnoreCase("slap")) {
-				if (HumiliationPermissions.canSlap(player) || (player.isOp())) {
+				if (permissions.canSlap(player) || (player.isOp())) {
 					if (args.length >= 1) {
 						List<Player> players = server.matchPlayer(args[0]);
 						if (players.size() >= 1) {
@@ -63,12 +65,11 @@ public class HumiliationCommandExecutor implements CommandExecutor {
 								+ "[Humiliation] You must specify a player's name!");
 					}
 				} else {
-					player.sendMessage(ChatColor.RED
-							+ "[Humiliation] You do not have permission to use that command.");
+					player.sendMessage(noPermissionsMessage);
 					return true;
 				}
 			} else if (commandName.equalsIgnoreCase("throw")) {
-				if (HumiliationPermissions.canThrow(player) || (player.isOp())) {
+				if (permissions.canThrow(player) || (player.isOp())) {
 					if (args.length >= 1) {
 						List<Player> players = server.matchPlayer(args[0]);
 						Player receiver = players.get(0);
@@ -98,18 +99,16 @@ public class HumiliationCommandExecutor implements CommandExecutor {
 								+ "[Humiliation] You must specify a player.");
 					}
 				} else {
-					player.sendMessage(ChatColor.RED
-							+ "[Humiliation] You do not have permission to use that command.");
+					player.sendMessage(noPermissionsMessage);
 					return true;
 				}
 			} else if (commandName.equalsIgnoreCase("hh")) {
-				if (HumiliationPermissions.canHelp(player) || (player.isOp())) {
-					Humiliation.sendHelp(player);
+				if (permissions.canHelp(player) || (player.isOp())) {
+					sendHelp(player);
 					return true;
 				}
 			} else if (commandName.equalsIgnoreCase("humiliate")) {
-				if (HumiliationPermissions.canHumiliate(player)
-						|| (player.isOp())) {
+				if (permissions.canHumiliate(player) || (player.isOp())) {
 					if (args.length >= 2) {
 						List<Player> players = server.matchPlayer(args[0]);
 						String nickname = args[1];
@@ -117,7 +116,7 @@ public class HumiliationCommandExecutor implements CommandExecutor {
 						if (players.size() >= 1 && (receiver != null)
 								&& (nickname != null)) {
 							receiver.setDisplayName(ChatColor
-									.valueOf(Humiliation.config.getString(
+									.valueOf(plugin.config.getString(
 											"nickname-color", "WHITE"))
 									+ nickname + ChatColor.WHITE);
 							player.sendMessage(ChatColor.YELLOW
@@ -146,16 +145,19 @@ public class HumiliationCommandExecutor implements CommandExecutor {
 								+ "[Humiliation] You must specify a player and a new nickname.");
 					}
 				} else {
-					player.sendMessage(ChatColor.RED
-							+ "[Humiliation] You do not have permission to use that command.");
+					player.sendMessage(noPermissionsMessage);
 					return true;
 				}
 			} else if (commandName.equalsIgnoreCase("leash")) {
-				if ((HumiliationPermissions.canLeash(player))
-						|| (player.isOp())) {
+				if ((permissions.canLeash(player)) || (player.isOp())) {
 					if (args.length == 1) {
 						List<Player> players = server.matchPlayer(args[0]);
 						Player leashedPlayer = players.get(0);
+						String leashedPlayerName = leashedPlayer.getName();
+						LeashTimer leashTimer = new LeashTimer(plugin,
+								leashedPlayerName, player.getName());
+						server.getScheduler().scheduleSyncRepeatingTask(plugin,
+								leashTimer, 100, 100);
 						leashMap.put(leashedPlayer.getName(), player.getName());
 						player.sendMessage(ChatColor.YELLOW
 								+ "[Humiliation] You have leashed "
@@ -170,12 +172,10 @@ public class HumiliationCommandExecutor implements CommandExecutor {
 								+ "[Humiliation] You must specify a player to leash.");
 					}
 				} else {
-					player.sendMessage(ChatColor.RED
-							+ "[Humiliation] You do not have permission to use that command.");
+					player.sendMessage(noPermissionsMessage);
 				}
 			} else if (commandName.equalsIgnoreCase("unleash")) {
-				if ((HumiliationPermissions.canLeash(player))
-						|| (player.isOp())) {
+				if ((permissions.canLeash(player)) || (player.isOp())) {
 					if (args.length == 1) {
 						List<Player> players = server.matchPlayer(args[0]);
 						Player leashedPlayer = players.get(0);
@@ -185,10 +185,11 @@ public class HumiliationCommandExecutor implements CommandExecutor {
 									+ "[Humiliation] You have unleashed "
 									+ ChatColor.RED + leashedPlayer.getName()
 									+ ChatColor.YELLOW + ".");
-							leashedPlayer.sendMessage(ChatColor.YELLOW
-									+ "[Humiliation] You have been unleashed by "
-									+ ChatColor.RED + player.getName()
-									+ ChatColor.YELLOW + ".");
+							leashedPlayer
+									.sendMessage(ChatColor.YELLOW
+											+ "[Humiliation] You have been unleashed by "
+											+ ChatColor.RED + player.getName()
+											+ ChatColor.YELLOW + ".");
 						} else {
 							player.sendMessage(ChatColor.RED
 									+ "[Humiliation] That player isn't leashed by you.");
@@ -199,11 +200,28 @@ public class HumiliationCommandExecutor implements CommandExecutor {
 								+ "[Humiliation] You are no longer leashing any players.");
 					}
 				} else {
-					player.sendMessage(ChatColor.RED
-							+ "[Humiliation] You do not have permission to use that command.");
+					player.sendMessage(noPermissionsMessage);
 				}
 			}
 		}
 		return true;
+	}
+
+	public static void sendHelp(Player player) {
+		player.sendMessage(ChatColor.GOLD
+				+ "========== Humiliation Help ==========");
+		player.sendMessage(ChatColor.BLUE + "/hh - displays this menu");
+		player.sendMessage(ChatColor.BLUE
+				+ "/slap [player] - deals 3 hearts damage");
+		player.sendMessage(ChatColor.BLUE
+				+ "/humiliate [player] [nickname] - changes the display name of a player");
+		player.sendMessage(ChatColor.BLUE
+				+ "/throw [player] - throw a player up in the air...and watch them fall to their death!");
+		player.sendMessage(ChatColor.BLUE
+				+ "/leash [player] - drag a player around with you");
+		player.sendMessage(ChatColor.BLUE
+				+ "/unleash [player] - unleash a player");
+		player.sendMessage(ChatColor.GOLD
+				+ "========== v0.5-alpha1 by aPunch ==========");
 	}
 }

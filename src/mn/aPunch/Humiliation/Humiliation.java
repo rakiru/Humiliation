@@ -3,9 +3,6 @@ package mn.aPunch.Humiliation;
 import java.io.File;
 import java.util.logging.Logger;
 
-
-import org.bukkit.ChatColor;
-import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.PluginManager;
@@ -22,29 +19,13 @@ public class Humiliation extends JavaPlugin {
 			this);
 	public static PermissionHandler Permissions;
 	Logger log = Logger.getLogger("Minecraft");
-	public static Configuration config;
+	public Configuration config;
 
 	public static String nickColor = "WHITE";
 	public static boolean autoKick = true;
 	public static int throwHeight = 30;
 	public static int leashRadius = 5;
-
-	public static void sendHelp(Player player) {
-		player.sendMessage(ChatColor.GOLD + "========== Humiliation Help ==========");
-		player.sendMessage(ChatColor.BLUE + "/hh - displays this menu");
-		player.sendMessage(ChatColor.BLUE
-				+ "/slap [player] - deals 3 hearts damage");
-		player.sendMessage(ChatColor.BLUE
-				+ "/humiliate [player] [nickname] - changes the display name of a player");
-		player.sendMessage(ChatColor.BLUE
-				+ "/throw [player] - throw a player up in the air...and watch them fall to their death!");
-		player.sendMessage(ChatColor.BLUE
-				+ "/leash [player] - drag a player around with you");
-		player.sendMessage(ChatColor.BLUE
-				+ "/unleash (player) - unleash a specific player, or unleash all players at once");
-		player.sendMessage(ChatColor.GOLD + "========== v0.5 by aPunch ==========");
-	}
-
+	
 	private void loadConfig() {
 		config.load();
 		nickColor = config.getString("nickname-color", nickColor);

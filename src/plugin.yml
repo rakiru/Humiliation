@@ -1,6 +1,6 @@
 name: Humiliation
 main: mn.aPunch.Humiliation.Humiliation
-version: 0.4
+version: 0.5-alpha1
 commands:
   hh:
     description: The Humiliation Help menu.
@@ -22,3 +22,13 @@ commands:
     usage: |
            Incorrect usage of /throw. Examples:
            /<command> [player]
+  leash:
+    description: Hook a player within a customizable radius.
+    usage: |
+           Incorrect usage of /leash. Examples:
+           /<command> [player]
+  unleash:
+    description: Unleash players.
+    usage: |
+           Incorrect usage of /unleash. Examples:
+           /<command> (player)

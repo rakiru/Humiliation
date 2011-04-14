@@ -46,6 +46,7 @@ public class HumiliationPlayerListener extends PlayerListener {
 		}
 	}
 
+	// find a safe position to teleport a player
 	private void findSafeTP(Location location, Player player) {
 		int i = 0;
 		double x = location.getX();

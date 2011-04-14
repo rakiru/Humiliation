@@ -11,6 +11,7 @@ import org.bukkit.event.block.BlockPlaceEvent;
 
 public class HumiliationBlockListener extends BlockListener {
 	public Humiliation plugin;
+	public HumiliationPermissions permissions;
 
 	public HumiliationBlockListener(Humiliation instance) {
 		plugin = instance;
@@ -20,17 +21,18 @@ public class HumiliationBlockListener extends BlockListener {
 		Player player = event.getPlayer();
 		Server server = player.getServer();
 		Block block = event.getBlock();
-		if (HumiliationPermissions.isAdmin(player)) {
-
-		} else if (block.getType() == Material.TNT) {
-			if (mn.aPunch.Humiliation.Humiliation.config.getBoolean(
-					"automatic-kick", true)) {
-				player.kickPlayer(null);
-				block.setType(Material.AIR);
-				server.broadcastMessage(ChatColor.RED + player.getName()
-						+ ChatColor.YELLOW + " has been kicked for using "
-						+ ChatColor.RED + block + ChatColor.YELLOW + ".");
-			}
+		permissions = new HumiliationPermissions(plugin);
+		if (block.getType() == Material.TNT) {
+			if(!permissions.isAdmin(player)){
+				if (plugin.config.getBoolean(
+						"automatic-kick", true)) {
+					player.kickPlayer(null);
+					block.setType(Material.AIR);
+					server.broadcastMessage(ChatColor.RED + player.getName()
+							+ ChatColor.YELLOW + " has been kicked for using "
+							+ ChatColor.RED + block + ChatColor.YELLOW + ".");
+				}
+			}		
 		}
 	}
 }
